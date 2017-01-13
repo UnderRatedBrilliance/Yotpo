@@ -1,0 +1,21 @@
+{
+    "name": "urb/yotpo",
+    "description": "Yotpo API Interface",
+    "keywords": ["yotpo", "yotpo api", "laravel"],
+    "type": "library",
+    "authors": [
+        {
+            "name": "George Barba",
+            "email": "george@underratedbrilliance.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Urb\\Yotpo\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
