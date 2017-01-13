@@ -1,7 +1,7 @@
 {
     "name": "urb/yotpo",
     "description": "Yotpo API Interface",
-    "keywords": ["yotpo", "yotpo api", "laravel"],
+    "keywords": ["yotpo", "yotpo api", "laravel","yotpo_client"],
     "type": "library",
     "authors": [
         {
