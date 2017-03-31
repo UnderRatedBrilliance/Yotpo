@@ -19,6 +19,8 @@
 namespace Urb\Yotpo;
 
 
+use AstronomyConnect\ItemHub\Review\Models\Review;
+
 class YotpoLatestReviews
 {
     protected $yotpo;
@@ -28,7 +30,7 @@ class YotpoLatestReviews
     public function __construct()
     {
         $this->yotpo = new Yotpo(config('yotpo'));
-        $this->reviewModel = app('App\ItemHub\Review\Models\Review');
+        $this->reviewModel = app(Review::class);
     }
 
 
