@@ -37,17 +37,9 @@ class YotpoServiceProvider extends ServiceProvider
     public function register()
     {
 
-        $this->app->singleton(Yotpo::class, function($app) {
 
 
-            return new Yotpo([
-                'app_key'                 => config('yotpo.app_key',null),
-                'app_secret'              => config('yotpo.app_secret',null),
-                'http_client_handler'     => config('yotpo.http_client_handler','curl'),
-            ]);
-        });
-
-        $this->app[Yotpo::class] = $this->app->singleton(
+        /*$this->app[Yotpo::class] = $this->app->share(
             function($app) {
                 $app['Yotpo.loaded'] = true;
                 dd(config('yotpo'));
@@ -57,14 +49,20 @@ class YotpoServiceProvider extends ServiceProvider
                     'http_client_handler'     => config('yotpo.http_client_handler','curl'),
                 ]);
             }
-        );
+        );*/
         $this->app->singleton(YotpoLatestReviews::class, function($app) {
+
+            $app->singleton(Yotpo::class, function($app) {
+
+
+                return new Yotpo([
+                    'app_key'                 => config('yotpo.app_key',null),
+                    'app_secret'              => config('yotpo.app_secret',null),
+                    'http_client_handler'     => config('yotpo.http_client_handler','curl'),
+                ]);
+            });
             return new YotpoLatestReviews(
-               new Yotpo([
-                   'app_key'                 => config('yotpo.app_key',null),
-                   'app_secret'              => config('yotpo.app_secret',null),
-                   'http_client_handler'     => config('yotpo.http_client_handler','curl'),
-               ])
+               $app->make(Yotpo::class)
             );
         });
 
@@ -74,8 +72,6 @@ class YotpoServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $app = $this->app;
-
         $configPath = __DIR__ .'/../config/yotpo.php';
         $this->publishes([$configPath => config_path('yotpo.php')], 'config');
     }
