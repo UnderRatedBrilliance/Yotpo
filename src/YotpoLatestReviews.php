@@ -20,6 +20,7 @@ namespace Urb\Yotpo;
 
 
 use AstronomyConnect\ItemHub\Review\Models\Review;
+use Urb\Yotpo\Exception\YotpoApiException;
 
 class YotpoLatestReviews
 {
@@ -37,10 +38,22 @@ class YotpoLatestReviews
 
     public function getReviews()
     {
-        return $this->yotpo->getReviews([
+        $response =  $this->yotpo->getReviews([
             'count' => 200,
             'since_date' => ($this->getLastImportedReview()) ? (string)$this->getLastImportedReview()->created_at->addSeconds(1) : '2016-11-21',
-        ])['reviews'];
+        ]);
+
+        if(isset($response['status']) && $response['status']['code'] == 401)
+        {
+            throw new YotpoApiException($response['status']['message']);
+        }
+
+        if(!isset($response['reviews']))
+        {
+            return [];
+        }
+
+        return $response['reviews'];
     }
     public function getLastImportedReview()
     {
