@@ -47,7 +47,7 @@ class YotpoServiceProvider extends ServiceProvider
             ]);
         });
 
-        $this->app[Yotpo::class] = $this->app->share(
+        $this->app[Yotpo::class] = $this->app->singleton(
             function($app) {
                 $app['Yotpo.loaded'] = true;
                 dd(config('yotpo'));
